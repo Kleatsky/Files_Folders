@@ -30,7 +30,7 @@ namespace FileCreaterConsole
         public static FileInfo FileCreation(string filePath)
         {
             FileInfo file = new FileInfo(filePath);
-            if(!file.Exists)
+            if (!file.Exists)
             {
                 try
                 {
@@ -48,7 +48,7 @@ namespace FileCreaterConsole
         }
         public static async Task<bool> AppendWriteAsync(FileInfo file, string text)
         {
-            if(!file.Exists)
+            if (!file.Exists)
             {
                 ErrorMessage($"File: {file.FullName} doesn't exits.");
                 return false;
@@ -85,7 +85,7 @@ namespace FileCreaterConsole
                 ErrorMessage(e.Message);
                 return false;
             }
-            
+
             return true;
         }
         private static void ErrorMessage(string message)
