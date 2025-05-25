@@ -24,6 +24,7 @@ namespace FileCreaterConsole
                     return null;
                 }
             }
+
             return dir;
         }
         public static FileInfo FileCreation(string filePath)
@@ -33,7 +34,7 @@ namespace FileCreaterConsole
             {
                 try
                 {
-                    using (file.Create()) { }//Чтобы успел вернуть доступ к файлу
+                    using (file.Create()) { }//Чтобы вернуть доступ к файлу
                     Console.WriteLine($"File {filePath} created.");
                 }
                 catch (Exception e)
@@ -42,13 +43,14 @@ namespace FileCreaterConsole
                     return null;
                 }
             }
+
             return file;
         }
         public static async Task<bool> AppendWriteAsync(FileInfo file, string text)
         {
             if(!file.Exists)
             {
-                Console.WriteLine($"File: {file.FullName} doesn't exits.");
+                ErrorMessage($"File: {file.FullName} doesn't exits.");
                 return false;
             }
 
@@ -62,6 +64,28 @@ namespace FileCreaterConsole
                 ErrorMessage(e.Message);
                 return false;
             }
+
+            return true;
+        }
+        public static async Task<bool> ReadAllFile(FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                ErrorMessage($"File: {file.FullName} doesn't exits.");
+                return false;
+            }
+
+            try
+            {
+                string text = await File.ReadAllTextAsync(file.FullName);
+                Console.WriteLine($"{file.Name}: " + text);
+            }
+            catch (Exception e)
+            {
+                ErrorMessage(e.Message);
+                return false;
+            }
+            
             return true;
         }
         private static void ErrorMessage(string message)

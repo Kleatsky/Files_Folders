@@ -40,9 +40,43 @@ namespace FileCreaterConsole
                 }
             }
 
+            //Task 4
+            foreach (FileInfo file in filesDir1)
+            {
+                bool complite = await FileUsing.AppendWriteAsync(file, DateTime.Now.ToString() + '\n');
+                if (complite == false)
+                {
+                    return;
+                }
+            }
+            foreach (FileInfo file in filesDir2)
+            {
+                bool complite = await FileUsing.AppendWriteAsync(file, DateTime.Now.ToString() + '\n');
+                if (complite == false)
+                {
+                    return;
+                }
+            }
 
+            //Task 5
+            foreach (FileInfo file in filesDir1)
+            {
+                bool complite = await FileUsing.ReadAllFile(file);
+                if (complite == false)
+                {
+                    return;
+                }
+            }
+            foreach (FileInfo file in filesDir2)
+            {
+                bool complite = await FileUsing.ReadAllFile(file);
+                if (complite == false)
+                {
+                    return;
+                }
+            }
 
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Program complite success.");
         }
     }
 }
