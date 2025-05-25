@@ -20,7 +20,7 @@ namespace FileCreaterConsole
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    ErrorMessage(e.Message);
                     return null;
                 }
             }
@@ -33,16 +33,43 @@ namespace FileCreaterConsole
             {
                 try
                 {
-                    file.Create();
+                    using (file.Create()) { }//Чтобы успел вернуть доступ к файлу
                     Console.WriteLine($"File {filePath} created.");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    ErrorMessage(e.Message);
                     return null;
                 }
             }
             return file;
+        }
+        public static async Task<bool> AppendWriteAsync(FileInfo file, string text)
+        {
+            if(!file.Exists)
+            {
+                Console.WriteLine($"File: {file.FullName} doesn't exits.");
+                return false;
+            }
+
+            try
+            {
+                await File.AppendAllTextAsync(file.FullName, text, Encoding.UTF8);
+                Console.WriteLine($"Text {text} added to {file.FullName}");
+            }
+            catch (Exception e)
+            {
+                ErrorMessage(e.Message);
+                return false;
+            }
+            return true;
+        }
+        private static void ErrorMessage(string message)
+        {
+            var tempConsoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor = tempConsoleColor;
         }
     }
 }
