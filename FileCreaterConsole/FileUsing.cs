@@ -29,12 +29,13 @@ namespace FileCreaterConsole
         }
         public static FileInfo FileCreation(string filePath)
         {
-            FileInfo file = new FileInfo(filePath);
-            if (!file.Exists)
-            {
+            FileInfo file;
+            if (!File.Exists(filePath))
+            { 
                 try
                 {
-                    using (file.Create()) { }//Чтобы вернуть доступ к файлу
+                    using (File.Create(filePath)) { }//Чтобы вернуть доступ к файлу
+                    file = new FileInfo(filePath);
                     Console.WriteLine($"File {filePath} created.");
                 }
                 catch (Exception e)
@@ -43,7 +44,7 @@ namespace FileCreaterConsole
                     return null;
                 }
             }
-
+            file = new FileInfo(filePath);
             return file;
         }
         public static async Task<bool> AppendWriteAsync(FileInfo file, string text)
